@@ -1,5 +1,9 @@
+require('dotenv').config();
+
 import express from 'express';
 import morgan from 'morgan';
+import multer from 'multer';
+import path from 'path';
 
 import productRoutes from "./routes/products.routes";
 import usersRoutes from "./routes/user.routes";
@@ -7,13 +11,25 @@ import authRoutes from "./routes/auth.routes";
 
 
 const app = express();
+import ('./database');
 
 // Settings
-app.set("port", process.env.PORT || 3000);
+app.set("port", process.env.PORT || 4000);
 
 // Middlewares
 app.use(morgan('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
+
+const storage = multer.diskStorage({
+    destination: path.join(__dirname, 'uploads'),
+    filename: (req, file, cb, filename) => {
+        console.log(file);
+        cb(null, new Date().getTime() + path.extname(file.originalname));
+    }
+})
+app.use(multer({storage}).single('imgFile'));
 
 
 
