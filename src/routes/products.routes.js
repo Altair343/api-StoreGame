@@ -22,7 +22,7 @@ router.get('/', productsCtrl.indexProduct);
 
 /*
  * Ruta para crear un producto
- * Se requiere una sesión iniciado al igual que un rol de administrador
+ * Se requiere un token al igual que un rol de administrador
  */
 
 router.post('/', [authJwt.verifyToken, authJwt.isAdmin], productsCtrl.storeProduct);
@@ -35,14 +35,14 @@ router.get('/:productId', productsCtrl.showProduct);
 
 /*
  * Ruta para actualizar un producto
- * Se requiere una sesión iniciado al igual que un rol de administrador
+ * Se requiere un token al igual que un rol de administrador
  */
 
 router.put('/:productId', [authJwt.verifyToken, authJwt.isAdmin], productsCtrl.updateProduct);
 
 /*
  * Ruta para eliminar un producto
- * Se requiere una sesión iniciado al igual que un rol de administrador
+ * Se requiere un token al igual que un rol de administrador
  */
 
 router.delete('/:productId', [authJwt.verifyToken, authJwt.isAdmin], productsCtrl.destroyProduct);
