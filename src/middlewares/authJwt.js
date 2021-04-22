@@ -1,9 +1,7 @@
-require('dotenv').config();
-
+import config from "../config";
 import jwt from "jsonwebtoken";
 import User from "../models/User";
 import Role from "../models/Role";
-
 
 /**
  * Este middleware tiene 3 funciones
@@ -18,7 +16,7 @@ export const verifyToken = async (req, res, next) => {
     // en caso de que no exista la cabesera
     if (!token) return res.status(403).json({ message: "No token provided" });
     try {
-        const decoded = jwt.verify(token, process.env.JSON_SECRET);
+        const decoded = jwt.verify(token, config.JSON_SECRET);
         req.userId = decoded.id._id;
 
         const user = await User.findById(req.userId, { password: 0 });

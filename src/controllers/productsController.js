@@ -1,13 +1,12 @@
-require('dotenv').config();
-
+import config from "../config";
 import cloudinary from 'cloudinary';
 import { unlink } from 'fs-extra';
 import Product from "../models/Product";
 
 cloudinary.config({
-    cloud_name: process.env.CLUD_NAME,
-    api_key: process.env.CLUD_KEY,
-    api_secret: process.env.CLUD_SECRET
+    cloud_name: config.CLUD_NAME,
+    api_key: config.CLUD_KEY,
+    api_secret: config.CLUD_SECRET
 });
 
 

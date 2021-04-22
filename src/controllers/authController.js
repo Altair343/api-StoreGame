@@ -1,9 +1,7 @@
-require('dotenv').config();
-
+import config from "../config";
 import User from "../models/User";
 import Role from "../models/Role";
 import jwt from "jsonwebtoken";
-
 
 export const signup = async (req, res) => {
 
@@ -38,7 +36,7 @@ export const signup = async (req, res) => {
         const saveUser = await newUser.save();
 
         // Creando un token
-        const token = jwt.sign({ saveUser }, process.env.JSON_SECRET, {
+        const token = jwt.sign({ saveUser }, config.JSON_SECRET, {
             expiresIn: 86400, // 24 hours segundos
         });
 
@@ -71,12 +69,12 @@ export const signin = async (req, res) => {
                 message: "Invalid Password",
             });
 
-        const token = jwt.sign({ id: userFound }, process.env.JSON_SECRET, {
+        const token = jwt.sign({ id: userFound }, config.JSON_SECRET, {
             expiresIn: 86400, // 24 hours
         });
 
         res.json({ token });
     } catch (error) {
-        console.log(error);
+        return res.status(500).json(error);
     }
 };
