@@ -1,5 +1,6 @@
 import config from "../config";
 import jwt from "jsonwebtoken";
+import { unlink } from 'fs-extra';
 import User from "../models/User";
 import Role from "../models/Role";
 
@@ -27,16 +28,24 @@ export const verifyToken = async (req, res, next) => {
     let token = req.headers["x-access-token"];
 
     // en caso de que no exista la cabesera
-    if (!token) return res.status(403).json({ message: "No token provided" });
+    if (!token) {
+        await unlink(req.file.path);
+        return res.status(403).json({ message: "No token provided" });
+    }
     try {
+
         const decoded = jwt.verify(token, config.JSON_SECRET);
         req.userId = decoded.id._id;
 
         const user = await User.findById(req.userId, { password: 0 });
-        if (!user) return res.status(404).json({ message: "No user found" });
+        if (!user) {
+            await unlink(req.file.path);
+            return res.status(404).json({ message: "No user found" });
+        }
         next();
 
     } catch (error) {
+        await unlink(req.file.path);
         return res.status(401).json({ message: "Unauthorized!" });
     }
 };
@@ -61,9 +70,11 @@ export const isAdmin = async (req, res, next) => {
             }
         }
 
+        await unlink(req.file.path);
         return res.status(403).json({ message: "Require Admin Role!" });
+
     } catch (error) {
-        console.log(error)
+        await unlink(req.file.path);
         return res.status(500).send({ message: error });
     }
 };

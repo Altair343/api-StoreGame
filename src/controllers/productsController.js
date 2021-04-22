@@ -1,4 +1,4 @@
-import config from "./config";
+import config from "../config";
 import cloudinary from 'cloudinary';
 import { unlink } from 'fs-extra';
 import Product from "../models/Product";
