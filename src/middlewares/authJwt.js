@@ -4,6 +4,14 @@ import jwt from "jsonwebtoken";
 import User from "../models/User";
 import Role from "../models/Role";
 
+
+/**
+ * Este middleware tiene 3 funciones
+ * verifyToken para verificar el token [Si existe, si es valido]
+ * isAdmin para verificar si el usuario tiene el rol de administrador
+ * isUser para verificar si el usuario tiene el rol de usuario
+ */
+
 export const verifyToken = async (req, res, next) => {
     let token = req.headers["x-access-token"];
 

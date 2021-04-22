@@ -2,7 +2,6 @@ require('dotenv').config();
 
 import User from "../models/User";
 import Role from "../models/Role";
-
 import jwt from "jsonwebtoken";
 
 
@@ -60,6 +59,7 @@ export const signin = async (req, res) => {
 
         if (!userFound) return res.status(400).json({ message: "User Not Found" });
 
+        // Se comparan las contraseñas, para saver si coinsiden
         const matchPassword = await User.comparePassword(
             req.body.password,
             userFound.password

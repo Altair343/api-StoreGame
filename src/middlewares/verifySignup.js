@@ -1,6 +1,12 @@
 import User from "../models/User";
 import { ROLES } from "../models/Role";
 
+/**
+ * Este middleware tiene 2 funciones
+ * checkDuplicateUsernameOrEmail para verificar el correo y usuario proporcionados [Si existen]
+ * checkRolesExisted para verificar si los roles proporcionados [ Existen ]
+ */
+
 const checkDuplicateUsernameOrEmail = async (req, res, next) => {
   try {
     const user = await User.findOne({ username: req.body.username });
@@ -25,7 +31,6 @@ const checkRolesExisted = (req, res, next) => {
       }
     }
   }
-
   next();
 };
 
