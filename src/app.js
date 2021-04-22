@@ -8,10 +8,11 @@ import path from 'path';
 import productRoutes from "./routes/products.routes";
 import usersRoutes from "./routes/user.routes";
 import authRoutes from "./routes/auth.routes";
-
+import { createRoles } from "./libs/initialSetup";
 
 const app = express();
 import ('./database');
+createRoles();
 
 // Settings
 app.set("port", process.env.PORT || 4000);
