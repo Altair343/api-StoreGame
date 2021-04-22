@@ -1,4 +1,4 @@
-import config from "../config";
+import config from "./config";
 import cloudinary from 'cloudinary';
 import { unlink } from 'fs-extra';
 import Product from "../models/Product";
@@ -9,11 +9,25 @@ cloudinary.config({
     api_secret: config.CLUD_SECRET
 });
 
+/**
+ * Manejar una solicitud de busqueda de todos los productos.
+ *
+ * @return \json [ object ]
+ *
+ */
 
 export const indexProduct = async (req, res) => {
     const products = await Product.find();
     return res.json(products);
 };
+
+/**
+ * Manejar una solicitud de registro entrante de un producto.
+ *
+ * @param  \req.body [title, description, price, categories ]
+ * @return \json [ object ]
+ *
+ */
 
 export const storeProduct = async (req, res) => {
 
@@ -39,6 +53,14 @@ export const storeProduct = async (req, res) => {
     }
 };
 
+/**
+ * Manejar una solicitud de busqueda de un producto.
+ *
+ * @param  \req.body [ id ]
+ * @return \json [ object ]
+ *
+ */
+
 export const showProduct = async (req, res) => {
     try {
         const { productId } = req.params;
@@ -52,6 +74,14 @@ export const showProduct = async (req, res) => {
         return res.status(500).json(error);
     }
 };
+
+/**
+ * Manejar una solicitud de actualización entrante de un producto.
+ *
+ * @param  \req.body [title, description, price, categories ]
+ * @return \json [ object]
+ *
+ */
 
 export const updateProduct = async (req, res) => {
 
@@ -93,6 +123,14 @@ export const updateProduct = async (req, res) => {
 
 
 };
+
+/**
+ * Manejar una solicitud de eliminación de un producto.
+ *
+ * @param  \req.body [ id ]
+ * @return \json [ object ]
+ *
+ */
 
 export const destroyProduct = async (req, res) => {
 

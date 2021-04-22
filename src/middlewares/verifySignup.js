@@ -1,10 +1,22 @@
 import User from "../models/User";
 import { ROLES } from "../models/Role";
 
+/*
+|--------------------------------------------------------------------------
+| Middleware
+|--------------------------------------------------------------------------
+|
+| checkDuplicateUsernameOrEmail para verificar el correo y usuario proporcionados [Si existen] 
+| checkRolesExisted para verificar si los roles proporcionados [ Existen ]
+| 
+*/
+
 /**
- * Este middleware tiene 2 funciones
- * checkDuplicateUsernameOrEmail para verificar el correo y usuario proporcionados [Si existen]
- * checkRolesExisted para verificar si los roles proporcionados [ Existen ]
+ * Manejar una solicitud de verificación de existencia de email o username.
+ *
+ * @param  \req.body [ email, username ]
+ * @return \next()
+ *
  */
 
 const checkDuplicateUsernameOrEmail = async (req, res, next) => {
@@ -20,6 +32,14 @@ const checkDuplicateUsernameOrEmail = async (req, res, next) => {
     res.status(500).json({ message: error });
   }
 };
+
+/**
+ * Manejar una solicitud de verificación de existencia de rol,
+ *
+ * @param  \req.body [ roles ]
+ * @return \next()
+ *
+ */
 
 const checkRolesExisted = (req, res, next) => {
   if (req.body.roles) {

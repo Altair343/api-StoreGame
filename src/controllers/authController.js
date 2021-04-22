@@ -3,6 +3,14 @@ import User from "../models/User";
 import Role from "../models/Role";
 import jwt from "jsonwebtoken";
 
+/**
+ * Manejar una solicitud de registro entrante.
+ *
+ * @param  \req.body [username, email, contraseña, roles ]
+ * @return \json [token]
+ *
+ */
+
 export const signup = async (req, res) => {
 
     try {
@@ -47,6 +55,14 @@ export const signup = async (req, res) => {
     }
 
 };
+
+/**
+ * Manejar una solicitud de inicio de sesión entrante.
+ *
+ * @param  \req.body [email, contraseña]
+ * @return \json [token]
+ *
+ */
 
 export const signin = async (req, res) => {
     try {

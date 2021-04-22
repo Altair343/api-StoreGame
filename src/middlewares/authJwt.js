@@ -3,11 +3,24 @@ import jwt from "jsonwebtoken";
 import User from "../models/User";
 import Role from "../models/Role";
 
+/*
+|--------------------------------------------------------------------------
+| Middleware
+|--------------------------------------------------------------------------
+|
+| verifyToken para verificar el token [Si existe, si es valido] 
+| isAdmin para verificar si el usuario tiene el rol de administrador
+| isUser para verificar si el usuario tiene el rol de usuario
+|
+*/
+
+
 /**
- * Este middleware tiene 3 funciones
- * verifyToken para verificar el token [Si existe, si es valido]
- * isAdmin para verificar si el usuario tiene el rol de administrador
- * isUser para verificar si el usuario tiene el rol de usuario
+ * Manejar una solicitud de verificación de token.
+ *
+ * @param  \req.headers [x-access-token ]
+ * @return \next()
+ *
  */
 
 export const verifyToken = async (req, res, next) => {
@@ -28,6 +41,14 @@ export const verifyToken = async (req, res, next) => {
     }
 };
 
+/**
+ * Manejar una solicitud de verificación de existencia de rol administrador.
+ *
+ * @param  \\req [ userId ]
+ * @return \next()
+ *
+ */
+
 export const isAdmin = async (req, res, next) => {
     try {
         const user = await User.findById(req.userId);
@@ -47,6 +68,13 @@ export const isAdmin = async (req, res, next) => {
     }
 };
 
+/**
+ * Manejar una solicitud de verificación de existencia de rol usuario.
+ *
+ * @param  \\req [ userId ]
+ * @return \next()
+ *
+ */
 
 export const isUser = async (req, res, next) => {
     try {
