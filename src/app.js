@@ -20,7 +20,7 @@ app.set("port", process.env.PORT || 4000);
 
 // Middlewares
 const corsOptions = {
-    // origin: "http://localhost:3000",
+    origin: "http://localhost:3000",
 };
 app.use(cors(corsOptions));
 
