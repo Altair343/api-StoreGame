@@ -2,7 +2,7 @@ import { Router } from 'express';
 const router = Router();
 
 import * as productsCtrl from "../controllers/productsController";
-import { authJwt } from "../middlewares";
+import { authJwt, uploadImg } from "../middlewares";
 
 /*
 |--------------------------------------------------------------------------
@@ -25,7 +25,7 @@ router.get('/', productsCtrl.indexProduct);
  * Se requiere un token al igual que un rol de administrador
  */
 
-router.post('/', [authJwt.verifyToken, authJwt.isAdmin], productsCtrl.storeProduct);
+router.post('/', [authJwt.verifyToken, authJwt.isAdmin, uploadImg.middleMulter], productsCtrl.storeProduct);
 
 /*
  *  Ruta para listar un producto
@@ -38,7 +38,7 @@ router.get('/:productId', productsCtrl.showProduct);
  * Se requiere un token al igual que un rol de administrador
  */
 
-router.put('/:productId', [authJwt.verifyToken, authJwt.isAdmin], productsCtrl.updateProduct);
+router.put('/:productId', [authJwt.verifyToken, authJwt.isAdmin, uploadImg.middleMulter], productsCtrl.updateProduct);
 
 /*
  * Ruta para eliminar un producto

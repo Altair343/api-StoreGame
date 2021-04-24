@@ -1,7 +1,5 @@
 import express from 'express';
 import morgan from 'morgan';
-import multer from 'multer';
-import path from 'path';
 import cors from "cors";
 import helmet from "helmet";
 
@@ -28,14 +26,6 @@ app.use(helmet());
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
-const storage = multer.diskStorage({
-    destination: path.join(__dirname, 'uploads'),
-    filename: (req, file, cb, filename) => {
-        cb(null, new Date().getTime() + path.extname(file.originalname));
-    }
-})
-app.use(multer({ storage }).single('imgFile'));
 
 // Routes
 app.get('/', (req, res) => res.redirect('/api'));
