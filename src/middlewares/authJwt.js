@@ -15,7 +15,6 @@ import Role from "../models/Role";
 |
 */
 
-
 /**
  * Manejar una solicitud de verificación de token.
  *
@@ -25,28 +24,28 @@ import Role from "../models/Role";
  */
 
 export const verifyToken = async (req, res, next) => {
-    let token = req.headers["x-access-token"];
-
+    /* let token = req.headers["x-access-token"]; */
+    const authorization = req.get('Authorization');
+    
     // en caso de que no exista la cabesera
-    if (!token) {
-        await unlink(req.file.path);
+    if (!authorization || !authorization.toLowerCase().startsWith('bearer')) {
         return res.status(403).json({ message: "No token provided" });
     }
-    try {
 
+    let token = authorization.substring(7);
+
+    try {
         const decoded = jwt.verify(token, config.JSON_SECRET);
-        req.userId = decoded.id._id;
+        req.userId = decoded.id;
 
         const user = await User.findById(req.userId, { password: 0 });
         if (!user) {
-            await unlink(req.file.path);
             return res.status(404).json({ message: "No user found" });
         }
         next();
 
     } catch (error) {
-        await unlink(req.file.path);
-        return res.status(401).json({ message: "Unauthorized!" });
+        return res.status(401).json({ message: error });
     }
 };
 
@@ -69,12 +68,9 @@ export const isAdmin = async (req, res, next) => {
                 return;
             }
         }
-
-        await unlink(req.file.path);
         return res.status(403).json({ message: "Require Admin Role!" });
 
     } catch (error) {
-        await unlink(req.file.path);
         return res.status(500).send({ message: error });
     }
 };
