@@ -26,10 +26,14 @@ import Role from "../models/Role";
 export const verifyToken = async (req, res, next) => {
     /* let token = req.headers["x-access-token"]; */
     const authorization = req.get('Authorization');
-    
+
     // en caso de que no exista la cabesera
     if (!authorization || !authorization.toLowerCase().startsWith('bearer')) {
-        return res.status(403).json({ message: "No token provided" });
+        return res.status(403).json({
+            code: "token/not-provided",
+            response: false,
+            message: "No token provided"
+        });
     }
 
     let token = authorization.substring(7);
@@ -40,12 +44,20 @@ export const verifyToken = async (req, res, next) => {
 
         const user = await User.findById(req.userId, { password: 0 });
         if (!user) {
-            return res.status(404).json({ message: "No user found" });
+            return res.status(404).json({
+                code: "token/not-valid-user",
+                response: false,
+                message: "No user found"
+            });
         }
         next();
 
     } catch (error) {
-        return res.status(401).json({ message: error });
+        return res.status(401).json({
+            code: "token/global-error",
+            response: false,
+            message: error
+        });
     }
 };
 
@@ -68,10 +80,18 @@ export const isAdmin = async (req, res, next) => {
                 return;
             }
         }
-        return res.status(403).json({ message: "Require Admin Role!" });
+        return res.status(403).json({
+            code: "role/not-valid",
+            response: false,
+            message: "Require Admin Role!"
+        });
 
     } catch (error) {
-        return res.status(500).send({ message: error });
+        return res.status(500).send({
+            code: "role/global-error",
+            response: false,
+            message: error
+        });
     }
 };
 
@@ -95,9 +115,17 @@ export const isUser = async (req, res, next) => {
             }
         }
 
-        return res.status(403).json({ message: "Require User Role!" });
+        return res.status(403).json({
+            code: "role/not-valid",
+            response: false,
+            message: "Require User Role!"
+        });
     } catch (error) {
         console.log(error)
-        return res.status(500).send({ message: error });
+        return res.status(500).send({
+            code: "role/global-error",
+            response: false,
+            message: error
+        });
     }
 };

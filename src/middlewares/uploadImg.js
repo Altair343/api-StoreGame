@@ -10,7 +10,7 @@ const storage = multer.diskStorage({
 
 export const middleMulter = multer({
     storage,
-    limits: { fileSize: 3000000 },
+    limits: { fileSize: 3000000 }, // 3 MB en bytes
     fileFilter: (req, file, cb) => {
         const filetype = /jpeg|jpg|png|gif/;
         const mimetype = filetype.test(file.mimetype);
@@ -19,8 +19,9 @@ export const middleMulter = multer({
             return cb(null, true);
         }
         cb({
+            code: "upload/not-valid",
             respont: false,
-            message: "archivo no valido",
+            message: "Invalid file",
         });
     }
 }).single('imgFile');
