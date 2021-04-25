@@ -53,14 +53,14 @@ export const signup = async (req, res) => {
         });
 
         return res.status(200).json({
-            respont: true,
+            response: true,
             token: token,
             role: rolUser
         });
 
     } catch (error) {
         return res.status(500).json({
-            respont: false,
+            response: false,
             message: "An error occurred",
             error: error
         });
@@ -85,7 +85,7 @@ export const signin = async (req, res) => {
         let rolUser = [];
         rolUser = userFound.roles.map((userRol) => userRol.name);
 
-        if (!userFound) return res.status(400).json({ respont: false, message: "User Not Found" });
+        if (!userFound) return res.status(400).json({ response: false, message: "User Not Found" });
 
         // Se comparan las contraseñas, para saver si coinsiden
         const matchPassword = await User.comparePassword(
@@ -94,20 +94,20 @@ export const signin = async (req, res) => {
         );
 
         if (!matchPassword)
-            return res.status(401).json({ respont: false, message: "Invalid Password" });
+            return res.status(401).json({ response: false, message: "Invalid Password" });
 
         const token = jwt.sign({ id: userFound._id, roles: rolUser }, config.JSON_SECRET, {
             expiresIn: 86400, // 24 hours
         });
 
         res.status(200).json({
-            respont: true,
+            response: true,
             token: token,
             role: rolUser
         });
     } catch (error) {
         return res.status(500).json({
-            respont: false,
+            response: false,
             message: "An error occurred",
             error: error
         });

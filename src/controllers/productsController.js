@@ -20,13 +20,13 @@ export const indexProduct = async (req, res) => {
     try {
         const products = await Product.find();
         res.status(200).json({
-            respont: true,
+            response: true,
             message: "The products was found",
             data: products
         });
     } catch (error) {
         return res.status(500).json({
-            respont: false,
+            response: false,
             message: "An error occurred",
             error: error
         });
@@ -60,14 +60,14 @@ export const storeProduct = async (req, res) => {
         await unlink(req.file.path);
 
         res.status(201).json({
-            respont: true,
+            response: true,
             message: "The product has been created",
             data: productSaved
         });
 
     } catch (error) {
         return res.status(500).json({
-            respont: false,
+            response: false,
             message: "An error occurred",
             error: error
         });
@@ -88,19 +88,19 @@ export const showProduct = async (req, res) => {
         const product = await Product.findById(productId);
         if (product !== null) {
             res.status(200).json({
-                respont: true,
+                response: true,
                 message: "The product was found",
                 data: product
             });
         } else {
             res.status(404).json({
-                respont: false,
+                response: false,
                 message: "The product was not found",
             });
         }
     } catch (error) {
         return res.status(500).json({
-            respont: false,
+            response: false,
             message: "An error occurred",
             error: error
         });
@@ -144,7 +144,7 @@ export const updateProduct = async (req, res) => {
             );
             await unlink(req.file.path);
             res.status(200).json({
-                respont: true,
+                response: true,
                 message: "The product has been updated",
                 data: updatedProduct
             });
@@ -152,14 +152,14 @@ export const updateProduct = async (req, res) => {
         } else {
             await unlink(req.file.path);
             res.status(404).json({
-                respont: false,
+                response: false,
                 message: "The product was not found",
             });
         }
 
     } catch (error) {
         return res.status(500).json({
-            respont: false,
+            response: false,
             message: "An error occurred",
             error: error
         });
@@ -186,21 +186,21 @@ export const destroyProduct = async (req, res) => {
         if (destroyProdcut !== null) {
             await cloudinary.v2.uploader.destroy(destroyProdcut.imgPublicId);
             res.status(200).json({
-                respont: true,
+                response: true,
                 message: "The product has been removed",
                 data: destroyProdcut
             });
 
         } else {
             res.status(404).json({
-                respont: false,
+                response: false,
                 message: "The product was not found",
             });
         }
 
     } catch (error) {
         return res.status(500).json({
-            respont: false,
+            response: false,
             message: "An error occurred",
             error: error
         });
