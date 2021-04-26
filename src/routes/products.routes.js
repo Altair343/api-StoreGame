@@ -4,7 +4,7 @@ const router = Router();
 import * as productsCtrl from "../controllers/productsController";
 import { authJwt, uploadImg } from "../middlewares";
 
-/*
+/** 
 |--------------------------------------------------------------------------
 | API Routes
 |--------------------------------------------------------------------------
@@ -14,35 +14,40 @@ import { authJwt, uploadImg } from "../middlewares";
 |
 */
 
-/*
- *  Ruta para listar todos los productos
+/**
+ * Ruta para listar todos los productos
+ * 
  */
 
 router.get('/', productsCtrl.indexProduct);
 
-/*
+/**
  * Ruta para crear un producto
  * Se requiere un token al igual que un rol de administrador
+ * 
  */
 
 router.post('/', [authJwt.verifyToken, authJwt.isAdmin, uploadImg.middleMulter], productsCtrl.storeProduct);
 
-/*
- *  Ruta para listar un producto
+/**
+ * Ruta para listar un producto
+ * 
  */
 
 router.get('/:productId', productsCtrl.showProduct);
 
-/*
+/**
  * Ruta para actualizar un producto
  * Se requiere un token al igual que un rol de administrador
+ * 
  */
 
 router.put('/:productId', [authJwt.verifyToken, authJwt.isAdmin, uploadImg.middleMulter], productsCtrl.updateProduct);
 
-/*
+/**
  * Ruta para eliminar un producto
  * Se requiere un token al igual que un rol de administrador
+ * 
  */
 
 router.delete('/:productId', [authJwt.verifyToken, authJwt.isAdmin], productsCtrl.destroyProduct);

@@ -1,12 +1,36 @@
 import multer from 'multer';
 import path from 'path';
 
+
+/*
+|--------------------------------------------------------------------------
+| Middleware
+|--------------------------------------------------------------------------
+|
+| subida de imagenes al servidor
+|
+*/
+
+
+/**
+ * Configuración, de donse guardara la imagen y conque nombre 
+ * renombrara el archivo 
+ *
+ */
+
 const storage = multer.diskStorage({
     destination: path.join(__dirname, '../uploads'),
     filename: (req, file, cb, filename) => {
         cb(null, new Date().getTime() + path.extname(file.originalname));
     }
 })
+
+/**
+ * Ejecutando el Middleware de multer teniendo como parametros de configuración 
+ * la constante storage, el limite de tamaño maximo del archivo en bytes,
+ * validando el tipo de archivo para solo aceptar imagenes. 
+ *
+ */
 
 export const middleMulter = multer({
     storage,

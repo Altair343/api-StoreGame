@@ -4,7 +4,7 @@ import { verifySignup } from "../middlewares";
 
 const router = Router();
 
-/*
+/**
 |--------------------------------------------------------------------------
 | API Routes
 |--------------------------------------------------------------------------
@@ -14,13 +14,15 @@ const router = Router();
 |
 */
 
-/*
- *  Ruta para registrar a un usuario
+/**
+ * Ruta para registrar a un usuario
+ * 
  */
 router.post('/signup',[verifySignup.checkDuplicateUsernameOrEmail,verifySignup.checkRolesExisted] ,authCtrl.signup);
 
-/*
- *  Ruta para logear al usuario
+/**
+ * Ruta para logear al usuario
+ * 
  */
 router.post('/signin',authCtrl.signin);
 

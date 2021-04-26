@@ -83,14 +83,15 @@ export const signin = async (req, res) => {
         const userFound = await User.findOne({ email: req.body.email }).populate(
             "roles"
         );
-        let rolUser = [];
-        rolUser = userFound.roles.map((userRol) => userRol.name);
 
         if (!userFound) return res.status(400).json({
             code: "auth/wrong-email",
             response: false,
             message: "User Not Found"
         });
+
+        let rolUser = [];
+        rolUser = userFound.roles.map((userRol) => userRol.name);
 
         // Se comparan las contraseñas, para saver si coinsiden
         const matchPassword = await User.comparePassword(
