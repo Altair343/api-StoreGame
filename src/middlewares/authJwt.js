@@ -129,3 +129,43 @@ export const isUser = async (req, res, next) => {
         });
     }
 };
+
+
+/**
+ * Manejar una solicitud para registrar en el request el rol del usuario
+ *
+ * @param  \\req [ userId ]
+ * @return \next()
+ *
+ */
+export const isRole = async (req, res, next) => {
+    try {
+        const user = await User.findById(req.userId);
+        const roles = await Role.find({ _id: { $in: user.roles } });
+
+        for (let i = 0; i < roles.length; i++) {
+            if (roles[i].name === "user") {
+                req.roleUser = roles[i].name;
+                next();
+                return;
+            } else if (roles[i].name === "admin") {
+                req.roleUser = roles[i].name;
+                next();
+                return;
+            }
+        }
+
+        return res.status(403).json({
+            code: "role/not-valid",
+            response: false,
+            message: "Require User Role!"
+        });
+    } catch (error) {
+        console.log(error)
+        return res.status(500).send({
+            code: "role/global-error",
+            response: false,
+            message: error
+        });
+    }
+};

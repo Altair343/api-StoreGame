@@ -18,11 +18,14 @@ import { verifySignup, authJwt } from "../middlewares";
  * 
  */
 
-router.post('/verifyToken', authJwt.verifyToken , (req, res) => {
+router.post('/verifyToken', [authJwt.verifyToken, authJwt.isRole] , (req, res) => {
     return res.status(200).json({
         code: "token/verify",
         response: true,
-        message: "token valid"
+        message: "token valid",
+        data: {
+            role: req.roleUser
+        }
     });
 });
 
