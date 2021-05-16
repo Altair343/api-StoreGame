@@ -24,9 +24,8 @@ import Role from "../models/Role";
  */
 
 export const verifyToken = async (req, res, next) => {
-    /* let token = req.headers["x-access-token"]; */
     const authorization = req.get('Authorization');
-
+    
     // en caso de que no exista la cabesera
     if (!authorization || !authorization.toLowerCase().startsWith('bearer')) {
         return res.status(403).json({

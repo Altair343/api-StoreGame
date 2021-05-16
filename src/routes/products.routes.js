@@ -37,6 +37,21 @@ router.post('/', [authJwt.verifyToken, authJwt.isAdmin, uploadImg.middleMulter],
 router.get('/:productId', productsCtrl.showProduct);
 
 /**
+ * Ruta para listar los prductos que pertenescan a una categoria
+ * 
+ */
+
+ router.get('/category/:categoryName', productsCtrl.showCategory);
+
+
+/**
+ * Ruta para listar una x cantidad de productos mas vendidos
+ * 
+ */
+
+ router.get('/sales/:shop', productsCtrl.showProductSales);
+
+/**
  * Ruta para actualizar un producto
  * Se requiere un token al igual que un rol de administrador
  * 

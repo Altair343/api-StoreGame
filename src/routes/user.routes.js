@@ -29,4 +29,6 @@ router.post('/verifyToken', [authJwt.verifyToken, authJwt.isRole] , (req, res) =
     });
 });
 
+
+
 export default router;

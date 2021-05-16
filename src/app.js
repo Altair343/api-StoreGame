@@ -17,10 +17,20 @@ createRoles();
 app.set("port", process.env.PORT || 4000);
 
 // Middlewares
+var whitelist = ['http://localhost:3000','https://www.example.com']
+
 const corsOptions = {
-    origin: "http://localhost:3000",
+    origin: function (origin, callback) {
+        if (whitelist.indexOf(origin) !== -1) {
+            callback(null, true)
+        } else {
+            callback(new Error('Not allowed by CORS'))
+        }
+    }
 };
-app.use(cors(corsOptions));
+
+//app.use(cors(corsOptions));
+app.use(cors());
 
 app.use(helmet());
 app.use(morgan('dev'));

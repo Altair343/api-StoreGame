@@ -42,7 +42,6 @@ export const indexProduct = async (req, res) => {
  */
 
 export const storeProduct = async (req, res) => {
-
     try {
         const { title, description, price, categories } = req.body;
         const result = await cloudinary.v2.uploader.upload(req.file.path);
@@ -54,6 +53,7 @@ export const storeProduct = async (req, res) => {
             imgPublicId: result.public_id,
             imgURL: result.url,
             categories,
+            sales: 0,
         });
 
         const productSaved = await newProduct.save();
@@ -71,6 +71,7 @@ export const storeProduct = async (req, res) => {
             message: "An error occurred",
             error: error
         });
+        console.log(error);
     }
 };
 
@@ -106,6 +107,81 @@ export const showProduct = async (req, res) => {
         });
     }
 };
+
+/**
+ * Manejar una solicitud de busqueda de los productos que pertenescan a una categoria
+ *
+ * @param  \req.body [ id ]
+ * @return \json [ object ]
+ *
+ */
+
+export const showCategory = async (req, res) => {
+    try {
+        const { categoryName } = req.params;
+        //const product = await Product.findById(categoryName);
+        const product = await Product.find({ "categories": categoryName });
+
+        if (product !== null) {
+            if (product.length > 0) {
+                res.status(200).json({
+                    response: true,
+                    message: "The category was found",
+                    data: product
+                });
+            } else {
+                res.status(404).json({
+                    response: false,
+                    message: "The category was not found",
+                });
+            }
+            
+        } else {
+            res.status(404).json({
+                response: false,
+                message: "The category was not found",
+            });
+        }
+    } catch (error) {
+        return res.status(500).json({
+            response: false,
+            message: "An error occurred",
+            error: error
+        });
+    }
+};
+
+/**
+ * Manejar una solicitud de busqueda de loss productos mas vendidos
+ *
+ * @param  \req.body [ id ]
+ * @return \json [ object ]
+ *
+ */
+
+export const showProductSales = async (req, res) => {
+    try {
+        const { shop } = req.params;
+        const product = await Product.find().limit(parseInt(shop)).sort({ "sales": -1, "_id": -1 });
+
+        //.limit(shop);
+        //.sort({ sales: 1 });
+
+        res.status(200).json({
+            response: true,
+            message: "The products was found",
+            data: product
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            response: false,
+            message: "An error occurred",
+            error: error
+        });
+    }
+};
+
 
 /**
  * Manejar una solicitud de actualización entrante de un producto.
