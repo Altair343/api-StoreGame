@@ -8,7 +8,7 @@ cloudinary.config({
     api_key: config.CLUD_KEY,
     api_secret: config.CLUD_SECRET
 });
-
+ 
 /**
  * Manejar una solicitud de busqueda de todos los productos.
  *
@@ -71,7 +71,6 @@ export const storeProduct = async (req, res) => {
             message: "An error occurred",
             error: error
         });
-        console.log(error);
     }
 };
 

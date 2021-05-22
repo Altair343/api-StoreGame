@@ -40,8 +40,10 @@ export const verifyToken = async (req, res, next) => {
     try {
         const decoded = jwt.verify(token, config.JSON_SECRET);
         req.userId = decoded.id;
+        
 
         const user = await User.findById(req.userId, { password: 0 });
+        req.userEmail = user.email;
         if (!user) {
             return res.status(404).json({
                 code: "token/not-valid-user",

@@ -18,7 +18,7 @@ import { verifySignup, authJwt } from "../middlewares";
  * 
  */
 
-router.post('/verifyToken', [authJwt.verifyToken, authJwt.isRole] , (req, res) => {
+router.post('/verifyToken', [authJwt.verifyToken, authJwt.isRole], (req, res) => {
     return res.status(200).json({
         code: "token/verify",
         response: true,
@@ -29,6 +29,19 @@ router.post('/verifyToken', [authJwt.verifyToken, authJwt.isRole] , (req, res) =
     });
 });
 
+/**
+ * Ruta para realizar un pago
+ * 
+ */
+
+router.post('/payment', authJwt.verifyToken, usersCtrl.paymentProduct);
+
+/**
+ * Ruta para realizar un pago
+ * 
+ */
+
+ router.post('/library', authJwt.verifyToken, usersCtrl.libraryUser);
 
 
 export default router;
