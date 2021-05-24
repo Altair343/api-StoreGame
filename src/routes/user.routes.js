@@ -2,7 +2,7 @@ import { Router } from "express";
 const router = Router();
 
 import * as usersCtrl from "../controllers/userController";
-import { verifySignup, authJwt } from "../middlewares";
+import { authJwt } from "../middlewares";
 
 /*
 |--------------------------------------------------------------------------
@@ -37,7 +37,7 @@ router.post('/verifyToken', [authJwt.verifyToken, authJwt.isRole], (req, res) =>
 router.post('/payment', authJwt.verifyToken, usersCtrl.paymentProduct);
 
 /**
- * Ruta para realizar un pago
+ * Ruta para mostrar la biblioteca del usuarios
  * 
  */
 

@@ -67,5 +67,12 @@ router.put('/:productId', [authJwt.verifyToken, authJwt.isAdmin, uploadImg.middl
 
 router.delete('/:productId', [authJwt.verifyToken, authJwt.isAdmin], productsCtrl.destroyProduct);
 
+/**
+ * Ruta para buscar uno o mas productos
+ * Se requiere un token
+ * 
+ */
+
+ router.post('/search',authJwt.verifyToken, productsCtrl.search);
 
 export default router;

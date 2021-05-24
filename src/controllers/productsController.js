@@ -8,7 +8,7 @@ cloudinary.config({
     api_key: config.CLUD_KEY,
     api_secret: config.CLUD_SECRET
 });
- 
+
 /**
  * Manejar una solicitud de busqueda de todos los productos.
  *
@@ -77,7 +77,7 @@ export const storeProduct = async (req, res) => {
 /**
  * Manejar una solicitud de busqueda de un producto.
  *
- * @param  \req.body [ id ]
+ * @param  \req.params [ productId ]
  * @return \json [ object ]
  *
  */
@@ -110,7 +110,7 @@ export const showProduct = async (req, res) => {
 /**
  * Manejar una solicitud de busqueda de los productos que pertenescan a una categoria
  *
- * @param  \req.body [ id ]
+ * @param  \req.params [ categoryName ]
  * @return \json [ object ]
  *
  */
@@ -134,7 +134,7 @@ export const showCategory = async (req, res) => {
                     message: "The category was not found",
                 });
             }
-            
+
         } else {
             res.status(404).json({
                 response: false,
@@ -151,9 +151,9 @@ export const showCategory = async (req, res) => {
 };
 
 /**
- * Manejar una solicitud de busqueda de loss productos mas vendidos
+ * Manejar una solicitud de busqueda de los productos mas vendidos
  *
- * @param  \req.body [ id ]
+ * @param  \req.params [ shop ]
  * @return \json [ object ]
  *
  */
@@ -181,11 +181,11 @@ export const showProductSales = async (req, res) => {
     }
 };
 
-
 /**
  * Manejar una solicitud de actualización entrante de un producto.
  *
- * @param  \req.body [title, description, price, categories ]
+ * @param  \req.params [ productId ]
+ * @param  \req.body [ title, description, price, categories ]
  * @return \json [ object]
  *
  */
@@ -248,7 +248,7 @@ export const updateProduct = async (req, res) => {
 /**
  * Manejar una solicitud de eliminación de un producto.
  *
- * @param  \req.body [ id ]
+ * @param  \req.params [ productId ]
  * @return \json [ object ]
  *
  */
@@ -270,6 +270,51 @@ export const destroyProduct = async (req, res) => {
             res.status(404).json({
                 response: false,
                 message: "The product was not found",
+            });
+        }
+
+    } catch (error) {
+        return res.status(500).json({
+            response: false,
+            message: "An error occurred",
+            error: error
+        });
+    }
+};
+
+/**
+ * Manejar una solicitud de busqueda de uno o mas productos
+ *
+ * @param  \req.body [ word ]
+ * @return \json [ object ]
+ *
+ */
+
+export const search = async (req, res) => {
+    try {
+        let { word } = req.body;
+        let er = new RegExp(`.*${word}.*`, 'i');
+        const productSearch = await Product.find({ "title": er });
+
+        if (productSearch !== null) {
+            if (productSearch.length > 0) {
+                console.log(productSearch);
+                res.status(200).json({
+                    response: true,
+                    message: "The game was found",
+                    data: productSearch
+                });
+            } else {
+                res.status(404).json({
+                    response: false,
+                    message: "The game was not found",
+                });
+            }
+
+        } else {
+            res.status(404).json({
+                response: false,
+                message: "The game was not found",
             });
         }
 

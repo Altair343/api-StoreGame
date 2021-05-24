@@ -9,6 +9,8 @@ const stripe = new Stripe(config.STRIPE_SECRET);
 /**
  * Manejar una solicitud de pago de un producto.
  *
+ * @param  \req.body [ paymentMethod, idProduct  ]
+ * @param  \req [ userId, userEmail ]
  * @return \json [ object ]
  *
  */
@@ -40,7 +42,7 @@ export const paymentProduct = async (req, res) => {
 
             // Sacamos el monto del pago
             const amountCharge = (charge.amount / 100);
-            
+
             // Generamos el serial del game
             const serialGame = "" + Serial.SerialRandom();
 
@@ -56,6 +58,13 @@ export const paymentProduct = async (req, res) => {
 
             // Guardamos el pago
             const paymentSaved = await newPayment.save();
+
+            //Actualizamos el producto el campo sales
+            let newsles = product.sales + 1;
+            let productNew = {
+                sales: newsles
+            }
+            await Product.findByIdAndUpdate(idProduct, productNew);
 
             // Respondemos la petición
             res.status(201).json({
@@ -84,6 +93,7 @@ export const paymentProduct = async (req, res) => {
 /**
  * Manejar una solicitud de busqueda de la bilioteca del usuario.
  *
+ * @param  \req [ userId ]
  * @return \json [ object ]
  *
  */
