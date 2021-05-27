@@ -22,6 +22,15 @@ import { authJwt, uploadImg } from "../middlewares";
 router.get('/', productsCtrl.indexProduct);
 
 /**
+ * Ruta para listar todos las ordenes
+ * Se requiere un token al igual que un rol de administrador
+ *  
+ */
+
+router.get('/orders', [authJwt.verifyToken, authJwt.isAdmin], productsCtrl.listOrders);
+
+
+/**
  * Ruta para crear un producto
  * Se requiere un token al igual que un rol de administrador
  * 

@@ -2,6 +2,7 @@ import config from "../config";
 import cloudinary from 'cloudinary';
 import { unlink } from 'fs-extra';
 import Product from "../models/Product";
+import Payment from "../models/Payment";
 
 cloudinary.config({
     cloud_name: config.CLUD_NAME,
@@ -32,6 +33,31 @@ export const indexProduct = async (req, res) => {
         });
     }
 };
+
+/**
+ * Manejar una solicitud de busqueda de todos las ordenes.
+ *
+ * @return \json [ object ]
+ *
+ */
+
+export const listOrders = async (req, res) => {
+    try {
+        const orders = await Payment.find().populate("ProductId");
+        res.status(200).json({
+            response: true,
+            message: "The products was found",
+            data: orders
+        });
+    } catch (error) {
+        return res.status(500).json({
+            response: false,
+            message: "An error occurred",
+            error: error
+        });
+    }
+};
+
 
 /**
  * Manejar una solicitud de registro entrante de un producto.
