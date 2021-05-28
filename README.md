@@ -1,5 +1,7 @@
 # Api del proyecto StoreGame
 
+[Dashboard](https://github.com/Altair343/dashboard-StoreGame)
+
 #### Instalación
 Instalamos los módulos
 ```bash
