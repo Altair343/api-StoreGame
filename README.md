@@ -2,6 +2,8 @@
 
 [Dashboard](https://github.com/Altair343/dashboard-StoreGame)
 
+[App](https://github.com/Altair343/app-StoreGame)
+
 #### Instalación
 Instalamos los módulos
 ```bash
