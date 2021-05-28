@@ -3,7 +3,7 @@
 #### Instalación
 Instalamos los módulos
 ```bash
-npm install o yarn install
+npm install
 ```
 Renombramos el archivo .env.example a .env.
 Dentro del archivo . env, ponemos las url y keys de los diferentes servicios que se utilizaran. 
